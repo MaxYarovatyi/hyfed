@@ -1,0 +1,3 @@
+﻿using Tests;
+
+SolverSmokeTest.Run();

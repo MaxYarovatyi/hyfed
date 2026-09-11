@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "2JQgUY2qdsA=",
+  "success": true,
+  "projectFilePath": "C:\\projects\\hyfed\\client\\client.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Precision\\.nuget\\packages\\google.protobuf\\3.34.0\\google.protobuf.3.34.0.nupkg.sha512",
+    "C:\\Users\\Precision\\.nuget\\packages\\grpc.core.api\\2.76.0\\grpc.core.api.2.76.0.nupkg.sha512",
+    "C:\\Users\\Precision\\.nuget\\packages\\grpc.net.client\\2.76.0\\grpc.net.client.2.76.0.nupkg.sha512",
+    "C:\\Users\\Precision\\.nuget\\packages\\grpc.net.common\\2.76.0\\grpc.net.common.2.76.0.nupkg.sha512",
+    "C:\\Users\\Precision\\.nuget\\packages\\mathnet.numerics\\6.0.0-beta2\\mathnet.numerics.6.0.0-beta2.nupkg.sha512",
+    "C:\\Users\\Precision\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\Precision\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

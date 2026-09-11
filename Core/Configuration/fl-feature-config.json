@@ -1,0 +1,211 @@
+{
+    "deltaFeatures": [
+        {
+            "id": "HRV_DeltaMean7",
+            "description": "HRV deviation from 7-day mean — autonomic dysregulation signal",
+            "enabled": true
+        },
+        {
+            "id": "HRV_Slope14",
+            "description": "HRV trend over 14 days — slow autonomic recovery/decline",
+            "enabled": true
+        },
+        {
+            "id": "Sleep_DeltaMean7",
+            "description": "Sleep quality deviation from 7-day mean — disruption signal",
+            "enabled": true
+        },
+        {
+            "id": "Sleep_Slope14",
+            "description": "Sleep quality trend over 14 days — gradual deterioration",
+            "enabled": true
+        },
+        {
+            "id": "Steps_DeltaMean7",
+            "description": "Steps deviation from 7-day mean — activity withdrawal signal",
+            "enabled": true
+        },
+        {
+            "id": "Steps_Slope14",
+            "description": "Steps trend over 14 days — sustained activity change",
+            "enabled": true
+        },
+        {
+            "id": "Steps_Std7",
+            "description": "Steps volatility over 7 days — activity irregularity (bipolar marker)",
+            "enabled": true
+        },
+        {
+            "id": "HR_Std7",
+            "description": "HR volatility over 7 days — cardiovascular instability",
+            "enabled": true
+        }
+    ],
+    "transformFeatures": [
+        {
+            "id": "SleepDuration_Sq",
+            "description": "SleepDuration² — nonlinear: deprivation effect is disproportionate below 5h",
+            "type": "Square",
+            "sourceA": "SleepDuration",
+            "sourceB": "",
+            "enabled": true
+        },
+        {
+            "id": "SleepQuality_Sq",
+            "description": "SleepQuality² — nonlinear sensitivity to extremely poor sleep quality",
+            "type": "Square",
+            "sourceA": "SleepQuality",
+            "sourceB": "",
+            "enabled": false
+        },
+        {
+            "id": "HRV_Sq",
+            "description": "HRV² — autonomic dysregulation extremes (PTSD, anxiety)",
+            "type": "Square",
+            "sourceA": "HRV",
+            "sourceB": "",
+            "enabled": true
+        },
+        {
+            "id": "HR_Sq",
+            "description": "HR² — extreme heart rate spikes at rest (BPD, anxiety)",
+            "type": "Square",
+            "sourceA": "HR",
+            "sourceB": "",
+            "enabled": true
+        },
+        {
+            "id": "Sleep_Activity_Interaction",
+            "description": "SleepDuration × ActivityLevel — low sleep + high activity = manic phase marker (Bipolar)",
+            "type": "Interaction",
+            "sourceA": "SleepDuration",
+            "sourceB": "ActivityLevel",
+            "enabled": true
+        },
+        {
+            "id": "Sleep_Quality_Duration_Interaction",
+            "description": "SleepDuration × SleepQuality — joint sleep quantity + quality (MDD marker)",
+            "type": "Interaction",
+            "sourceA": "SleepDuration",
+            "sourceB": "SleepQuality",
+            "enabled": false
+        },
+        {
+            "id": "HR_HRV_Interaction",
+            "description": "HR × HRV — autonomic imbalance: high HR + low HRV = stress without cause (BPD, GAD)",
+            "type": "Interaction",
+            "sourceA": "HR",
+            "sourceB": "HRV",
+            "enabled": true
+        },
+        {
+            "id": "HR_Activity_Interaction",
+            "description": "HR × ActivityLevel — stress at rest: elevated HR during low activity (PTSD, GAD)",
+            "type": "Interaction",
+            "sourceA": "HR",
+            "sourceB": "ActivityLevel",
+            "enabled": false
+        }
+    ],
+    "impactMatrix": {
+        "diagnoses": [
+            "MDD",
+            "GAD",
+            "PTSD",
+            "Bipolar",
+            "BPD"
+        ],
+        "featureOrder": [
+            "HRV_DeltaMean7",
+            "HRV_Slope14",
+            "Sleep_DeltaMean7",
+            "Sleep_Slope14",
+            "Steps_DeltaMean7",
+            "Steps_Slope14",
+            "Steps_Std7",
+            "HR_Std7",
+            "SleepDuration_Sq",
+            "HRV_Sq",
+            "HR_Sq",
+            "Sleep_Activity_Interaction",
+            "HR_HRV_Interaction"
+        ],
+        "rows": {
+            "MDD": [
+                0.5,
+                0.4,
+                0.9,
+                0.85,
+                0.8,
+                0.75,
+                0.3,
+                0.3,
+                0.8,
+                0.25,
+                0.2,
+                0.35,
+                0.2
+            ],
+            "GAD": [
+                0.85,
+                0.8,
+                0.45,
+                0.35,
+                0.2,
+                0.2,
+                0.3,
+                0.9,
+                0.25,
+                0.85,
+                0.8,
+                0.2,
+                0.9
+            ],
+            "PTSD": [
+                0.9,
+                0.85,
+                0.9,
+                0.5,
+                0.3,
+                0.2,
+                0.2,
+                0.8,
+                0.35,
+                0.8,
+                0.4,
+                0.2,
+                0.45
+            ],
+            "Bipolar": [
+                0.7,
+                0.75,
+                0.8,
+                0.85,
+                0.9,
+                0.9,
+                0.95,
+                0.5,
+                0.85,
+                0.3,
+                0.35,
+                0.95,
+                0.3
+            ],
+            "BPD": [
+                0.75,
+                0.3,
+                0.4,
+                0.25,
+                0.3,
+                0.2,
+                0.4,
+                0.95,
+                0.2,
+                0.8,
+                0.9,
+                0.2,
+                0.95
+            ]
+        }
+    }
+}

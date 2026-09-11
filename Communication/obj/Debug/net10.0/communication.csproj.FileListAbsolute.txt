@@ -1,0 +1,12 @@
+C:\projects\hyfed\communication\bin\Debug\net10.0\communication.deps.json
+C:\projects\hyfed\communication\bin\Debug\net10.0\communication.dll
+C:\projects\hyfed\communication\bin\Debug\net10.0\communication.pdb
+C:\projects\hyfed\communication\obj\Debug\net10.0\communication.csproj.AssemblyReference.cache
+C:\projects\hyfed\communication\obj\Debug\net10.0\communication.GeneratedMSBuildEditorConfig.editorconfig
+C:\projects\hyfed\communication\obj\Debug\net10.0\communication.AssemblyInfoInputs.cache
+C:\projects\hyfed\communication\obj\Debug\net10.0\communication.AssemblyInfo.cs
+C:\projects\hyfed\communication\obj\Debug\net10.0\communication.csproj.CoreCompileInputs.cache
+C:\projects\hyfed\communication\obj\Debug\net10.0\communication.dll
+C:\projects\hyfed\communication\obj\Debug\net10.0\refint\communication.dll
+C:\projects\hyfed\communication\obj\Debug\net10.0\communication.pdb
+C:\projects\hyfed\communication\obj\Debug\net10.0\ref\communication.dll

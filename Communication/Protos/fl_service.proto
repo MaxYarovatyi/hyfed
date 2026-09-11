@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+option csharp_namespace = "communication";
+
+package fl;
+
+// ── FL Coordinator Service ────────────────────────────────────────────────────
+//
+// Protocol for one FL round:
+//
+//   1. Client calls GetGlobalModel()  → receives current w_global + round_id
+//   2. Client trains locally (LocalSdcaSolver)
+//   3. Client calls SubmitUpdate()    → sends noised Δw_global
+//   4. Coordinator accumulates updates; when enough clients submit,
+//      aggregates via FedAvg and increments round
+//
+// Streaming variant (OpenRound) is used when coordinator needs to
+// push w_global to all ready clients simultaneously.
+// ─────────────────────────────────────────────────────────────────────────────
+
+service FLCoordinator {
+
+  // Client pulls current global model before local training.
+  // Returns immediately with latest w_global.
+  rpc GetGlobalModel (GetGlobalModelRequest) returns (GlobalModelResponse);
+
+  // Client submits its noised Δw after local training.
+  // Coordinator responds with acknowledgement and next round info.
+  rpc SubmitUpdate (ClientUpdateRequest) returns (SubmitUpdateResponse);
+
+  // Coordinator streams w_global to all subscribed clients when a new
+  // round starts. Client opens this stream once and listens.
+  rpc SubscribeToRounds (SubscribeRequest) returns (stream RoundBroadcast);
+}
+
+// ── Messages ──────────────────────────────────────────────────────────────────
+
+message GetGlobalModelRequest {
+  string client_id = 1;
+}
+
+message GlobalModelResponse {
+  // Current round number. Client must include this in SubmitUpdate
+  // to detect stale updates (client trained on old w_global).
+  int32  round_id    = 1;
+
+  // w_global ∈ ℝ⁶ — current global weights from coordinator.
+  // Fixed order: [HRV, HR, Steps, SleepDuration, SleepQuality, ActivityLevel]
+  repeated double w_global = 2 [packed = true];
+}
+
+message ClientUpdateRequest {
+  string client_id = 1;
+
+  // Round this update was computed for.
+  // Coordinator rejects updates where round_id != current_round.
+  int32  round_id  = 2;
+
+  // Δw_global ∈ ℝ⁶ after GaussianMechanism (L2-clipped + noised).
+  // Same fixed feature order as w_global.
+  repeated double delta_w_global = 3 [packed = true];
+
+  // Number of local training samples n_k.
+  // Used by coordinator for weighted FedAvg: weight = n_k / N_round.
+  int32  sample_count = 4;
+}
+
+message SubmitUpdateResponse {
+  // Whether the update was accepted.
+  bool   accepted     = 1;
+
+  // Reason if rejected (e.g. "stale_round", "duplicate_client").
+  string reject_reason = 2;
+
+  // How many clients have submitted this round so far.
+  // Client can use this to estimate when aggregation will happen.
+  int32  updates_received = 3;
+
+  // Minimum clients required before aggregation triggers.
+  int32  min_clients_required = 4;
+}
+
+message SubscribeRequest {
+  string client_id = 1;
+}
+
+// Pushed to all subscribed clients when a new round starts.
+message RoundBroadcast {
+  int32  round_id  = 1;
+
+  // New w_global after aggregation.
+  repeated double w_global = 2 [packed = true];
+
+  // Whether coordinator considers the model converged.
+  // Client may stop training if true.
+  bool   is_converged = 3;
+}
